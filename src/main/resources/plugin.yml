@@ -1,0 +1,11 @@
+name: BookSave
+description: Easy solution for saving and retrieving books.
+version: maven-version-number
+author: LankyLord
+main: net.lankylord.booksave.BookSave
+
+commands:
+  booksave:
+    description: The commands for interfacing with BookSave
+    aliases: [bs]
+    usage: /<command> [section] [options]...
