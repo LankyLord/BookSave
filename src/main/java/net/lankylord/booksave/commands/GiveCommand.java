@@ -42,7 +42,7 @@ public class GiveCommand extends BookSaveCommand {
     public GiveCommand(BookSave plugin) {
         super(plugin);
         this.setName("BookSave: Give");
-        this.setCommandUsage("/bs give [PlayerName] <BookName>");
+        this.setCommandUsage("/book give [PlayerName] <BookName>");
         this.setArgRange(1, 2);
         this.addKey("booksave give");
         this.addKey("bs give");
@@ -57,7 +57,7 @@ public class GiveCommand extends BookSaveCommand {
         if (args.size() == 2) {
             receiver = Bukkit.getPlayer(args.get(0));
             title = args.get(1);
-        } else if (sender instanceof Player && args.size() == 2) {
+        } else if (sender instanceof Player && args.size() != 2) {
             receiver = (Player) sender;
             title = args.get(0);
         }
