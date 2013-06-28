@@ -27,6 +27,8 @@ package net.lankylord.booksave.commands;
 
 import java.util.List;
 import net.lankylord.booksave.BookSave;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -35,25 +37,32 @@ import org.bukkit.permissions.PermissionDefault;
  *
  * @author LankyLord
  */
-public class SaveCommand extends BookSaveCommand {
+public class GiveCommand extends BookSaveCommand {
 
-    public SaveCommand(BookSave plugin) {
+    public GiveCommand(BookSave plugin) {
         super(plugin);
-        this.setName("BookSave: Save");
-        this.setCommandUsage("/bs save <BookName>");
-        this.setArgRange(1, 1);
-        this.addKey("booksave save");
-        this.addKey("bs save");
-        this.addKey("book save");
-        this.setPermission("booksave.save", "Allows this user to save a book", PermissionDefault.OP);
+        this.setName("BookSave: Give");
+        this.setCommandUsage("/bs give [PlayerName] <BookName>");
+        this.setArgRange(1, 2);
+        this.addKey("booksave give");
+        this.addKey("bs give");
+        this.addKey("book give");
+        this.setPermission("booksave.give", "Allows this user to retrieve saved books", PermissionDefault.OP);
     }
 
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
-        if (sender instanceof Player) {
-            if (plugin.getManager().addBook((Player) sender, args.get(0)))
-                sender.sendMessage(colour1 + "[BookSave] " + colour2 + args.get(0) + " saved.");
-        } else
-            sender.sendMessage(colour3 + "[BookSave] This command can only be issued by a player");
+        Player receiver = null;
+        String title = null;
+        if (args.size() == 2) {
+            receiver = Bukkit.getPlayer(args.get(0));
+            title = args.get(1);
+        } else if (sender instanceof Player && args.size() == 2) {
+            receiver = (Player) sender;
+            title = args.get(0);
+        }
+        if (plugin.getManager().giveBookToPlayer(receiver, title))
+            sender.sendMessage(ChatColor.YELLOW + "You have given " + receiver.getName() + " "
+                    + plugin.getManager().getBookTitle(title));
     }
 }

@@ -41,6 +41,7 @@ public abstract class BookSaveCommand extends Command {
     protected BookSave plugin;
     protected ChatColor colour1 = ChatColor.GOLD;
     protected ChatColor colour2 = ChatColor.GRAY;
+    protected ChatColor colour3 = ChatColor.RED;
 
     public BookSaveCommand(BookSave instance) {
         super(instance);
@@ -50,16 +51,12 @@ public abstract class BookSaveCommand extends Command {
     @Override
     public abstract void runCommand(CommandSender sender, List<String> args);
 
-    public String colourise(ChatColor colour, String value) {
-        return colour + value + ChatColor.RESET;
-    }
-
     @Override
     public void showHelp(CommandSender sender) {
-        sender.sendMessage(colour2 + "=== " + colour1 + getCommandName() + colour2 + " ===");
-        sender.sendMessage(colour2 + "Usage: " + colour1 + getCommandUsage());
-        sender.sendMessage(colour2 + getCommandDesc());
-        sender.sendMessage((colour2 + "Required Permission: " + colour1 + this.getPermissionString()));
+        sender.sendMessage(colour1 + "=== " + colour2 + getCommandName() + colour1 + " ===");
+        sender.sendMessage(colour1 + "Usage: " + colour2 + getCommandUsage());
+        sender.sendMessage(colour1 + "Desc: " + colour2 + getCommandDesc());
+        sender.sendMessage((colour1 + "Permission: " + colour2 + this.getPermissionString()));
         String keys = "";
         String prefix = "";
 
@@ -69,9 +66,9 @@ public abstract class BookSaveCommand extends Command {
             keys += prefix + key + ", ";
 
         keys = keys.substring(0, keys.length() - 2);
-        sender.sendMessage(colour2 + "Aliases: " + colour1 + keys);
+        sender.sendMessage(colour1 + "Aliases: " + colour2 + keys);
         if (this.getCommandExamples().size() > 0) {
-            sender.sendMessage(colour2 + "Examples: ");
+            sender.sendMessage(colour1 + "Examples: ");
             if (sender instanceof Player)
                 for (int i = 0; i < 4 && i < this.getCommandExamples().size(); i++)
                     sender.sendMessage(this.getCommandExamples().get(i));

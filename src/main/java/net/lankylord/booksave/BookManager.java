@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -51,12 +50,18 @@ public class BookManager {
         this.plugin = plugin;
     }
 
-    public void createBookDirectory() {
+    private void createBookDirectory() {
         bookFolder = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books");
         if (!bookFolder.exists())
             bookFolder.mkdirs();
     }
 
+    /**
+     * Save a book from a player's inventory
+     *
+     * @param p The player issuing the command
+     * @param name The name to be used for identification of the book
+     */
     public boolean addBook(Player p, String name) {
         createBookDirectory();
         File newBook = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name);
@@ -73,6 +78,7 @@ public class BookManager {
         } catch (IOException e) {
             BookSave.logger.log(Level.WARNING, "[BookSave] Failed to save new book");
             p.sendMessage(ChatColor.RED + "[BookSave] WARNING: Failed to save new book");
+            return false;
         }
         BookMeta meta = (BookMeta) p.getItemInHand().getItemMeta();
         String author = meta.getAuthor();
@@ -82,15 +88,33 @@ public class BookManager {
         return true;
     }
 
-    public void giveBookToPlayer(Player p, String name, CommandSender sender) {
+    /**
+     * Give a specified book to a player
+     *
+     * @param p Player receiving the book
+     * @param name The name of the book to be given
+     */
+    public boolean giveBookToPlayer(Player p, String name) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) book.getItemMeta();
         File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name);
-        meta = this.getBookFromSystem(meta, bookFile);
-        book.setItemMeta(meta);
-        p.getInventory().addItem(new ItemStack[]{book});
+        if (bookFile.exists()) {
+            meta = this.getBookFromSystem(meta, bookFile);
+            book.setItemMeta(meta);
+            p.getInventory().addItem(new ItemStack[]{book});
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Runs a task to save the book to disk
+     *
+     * @param title Title of the book to be stored
+     * @param author Author of the book to be stored
+     * @param pages Pages of the book to be stored
+     * @param book The file for book data to be stored in
+     */
     private void saveBookToSystem(final String title, final String author, final List<String> pages, final File book) {
         this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             @Override
@@ -107,16 +131,42 @@ public class BookManager {
         });
     }
 
+    /**
+     * Retrieved stored book metadata from disk
+     *
+     * @param meta BookMeta that will be replaced
+     * @param File The file the book data is stored in
+     */
     private BookMeta getBookFromSystem(BookMeta meta, File bookFile) {
         YamlConfiguration savedBook = new YamlConfiguration();
         try {
             savedBook.load(bookFile);
         } catch (InvalidConfigurationException | IOException e) {
-            e.printStackTrace();
+            BookSave.logger.log(Level.WARNING, "[BookSave] Failed to load books from disk.");
         }
         meta.setAuthor(savedBook.getString("author"));
         meta.setTitle(savedBook.getString("title"));
         meta.setPages((List<String>) savedBook.getList("pages"));
         return meta;
+    }
+
+    /**
+     * Retrieve title of stored book
+     *
+     * @param bookName The name of the file the book data is stored in
+     * @return Returns null if file does not exist, else returns title of book
+     */
+    public String getBookTitle(String bookName) {
+        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + bookName);
+        if (bookFile.exists()) {
+            YamlConfiguration savedBook = new YamlConfiguration();
+            try {
+                savedBook.load(bookFile);
+            } catch (InvalidConfigurationException | IOException e) {
+                BookSave.logger.log(Level.WARNING, "[BookSave] Failed to read book from disk.");
+            }
+            return savedBook.getString("title");
+        }
+        return null;
     }
 }

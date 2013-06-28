@@ -75,8 +75,8 @@ public class BookSave extends JavaPlugin {
     private void registerCommands() {
         PermissionsModule pm = new PermissionsModule();
         commandHandler = new CommandHandler(this, pm);
-        commandHandler.registerCommand(new BaseCommand(this));
         commandHandler.registerCommand(new SaveCommand(this));
+        commandHandler.registerCommand(new GiveCommand(this));
     }
 
     public BookManager getManager() {
