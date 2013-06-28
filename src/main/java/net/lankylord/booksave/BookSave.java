@@ -61,7 +61,10 @@ public class BookSave extends JavaPlugin {
         saveDefaultConfig();
         saveConfig();
         registerCommands();
+        bookManager.updateBookList();
 //        Bukkit.getServer().getPluginManager().registerEvents();
+        
+        
     }
 
     @Override
@@ -77,6 +80,7 @@ public class BookSave extends JavaPlugin {
         commandHandler = new CommandHandler(this, pm);
         commandHandler.registerCommand(new SaveCommand(this));
         commandHandler.registerCommand(new GiveCommand(this));
+        commandHandler.registerCommand(new ListCommand(this));
     }
 
     public BookManager getManager() {

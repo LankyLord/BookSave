@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -47,9 +48,11 @@ public class BookManager {
 
     private final BookSave plugin;
     private File bookFolder;
+    private List<String> bookList;
 
     public BookManager(BookSave plugin) {
         this.plugin = plugin;
+        this.bookList = new ArrayList<>();
     }
 
     private void createBookDirectory() {
@@ -87,6 +90,7 @@ public class BookManager {
         String title = meta.getTitle();
         List pages = meta.getPages();
         saveBookToSystem(title, author, pages, newBook);
+        updateBookList();
         return true;
     }
 
@@ -172,23 +176,36 @@ public class BookManager {
         return null;
     }
 
-    private List<String> getBookFiles() {
-        List<String> results = new ArrayList<>();
+    /**
+     * Update bookList with the files currently present in the directory
+     *
+     */
+    public void updateBookList() {
+        bookList = new ArrayList<>();
         File[] files = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books").listFiles();
-        for (File file : files)
-            if (file.isFile())
-                results.add(file.getName());
-        return results;
+        if (files != null)
+            for (File file : files)
+                if (file.isFile())
+                    bookList.add(file.getName());
     }
 
-    public void listBookFiles(Player p) {
-        List<String> booknames = getBookFiles();
-        p.sendMessage(ChatColor.GOLD + "===" + ChatColor.GRAY + "List of Books" + ChatColor.GOLD + "===");
-        for (Iterator<String> it = booknames.iterator(); it.hasNext();) {
-            String bookname = it.next();
-            String booktitle = this.getBookTitle(bookname);
-            p.sendMessage(ChatColor.GOLD + "==" + ChatColor.GRAY + bookname + ChatColor.GOLD + "==");
-            p.sendMessage(ChatColor.GOLD + "Title: " + ChatColor.GRAY + booktitle);
-        }
+    /**
+     * Send the player a message listing the currently stored books
+     *
+     * @param p The player to send the messages to
+     */
+    public void listBookFiles(CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "List of Books");
+        sender.sendMessage(" ");
+        if (!bookList.isEmpty())
+            for (Iterator<String> it = bookList.iterator(); it.hasNext();) {
+                String bookname = it.next();
+                String booktitle = this.getBookTitle(bookname);
+                sender.sendMessage(ChatColor.GOLD + "Name: " + ChatColor.GRAY + bookname);
+                sender.sendMessage(ChatColor.GOLD + "Title: " + ChatColor.GRAY + booktitle);
+                sender.sendMessage(ChatColor.GRAY + "-----");
+            }
+        else
+            sender.sendMessage(ChatColor.RED + "There are no books to list");
     }
 }
