@@ -30,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -61,13 +61,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.0</version>
+                <version>2.1</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <artifactSet>
+                        <includes>
+                            <include>com.pneumaticraft.commandhandler:CommandHandler</include>
+                        </includes>
+                    </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>com.pneumaticraft.commandhandler</pattern>
-                            <shadedPattern>net.lankylord.booksaves.util.commandhandler</shadedPattern>
+                            <shadedPattern>net.lankylord.booksave.util.commandhandler</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
