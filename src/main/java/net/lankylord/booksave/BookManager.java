@@ -27,6 +27,8 @@ package net.lankylord.booksave;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import org.bukkit.ChatColor;
@@ -168,5 +170,25 @@ public class BookManager {
             return savedBook.getString("title");
         }
         return null;
+    }
+
+    private List<String> getBookFiles() {
+        List<String> results = new ArrayList<>();
+        File[] files = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books").listFiles();
+        for (File file : files)
+            if (file.isFile())
+                results.add(file.getName());
+        return results;
+    }
+
+    public void listBookFiles(Player p) {
+        List<String> booknames = getBookFiles();
+        p.sendMessage(ChatColor.GOLD + "===" + ChatColor.GRAY + "List of Books" + ChatColor.GOLD + "===");
+        for (Iterator<String> it = booknames.iterator(); it.hasNext();) {
+            String bookname = it.next();
+            String booktitle = this.getBookTitle(bookname);
+            p.sendMessage(ChatColor.GOLD + "==" + ChatColor.GRAY + bookname + ChatColor.GOLD + "==");
+            p.sendMessage(ChatColor.GOLD + "Title: " + ChatColor.GRAY + booktitle);
+        }
     }
 }
