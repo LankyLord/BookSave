@@ -5,7 +5,6 @@ author: LankyLord
 main: net.lankylord.booksave.BookSave
 
 commands:
-  booksave:
+  book:
     description: The commands for interfacing with BookSave
-    aliases: [bs]
-    usage: /<command> [section] [options]...
+    aliases: [bs, booksave]
