@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.lankylord.booksave.commands.*;
+import net.lankylord.booksave.listeners.LoginListener;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -61,10 +62,10 @@ public class BookSave extends JavaPlugin {
         saveDefaultConfig();
         saveConfig();
         registerCommands();
+        registerListeners();
         bookManager.updateBookList();
-//        Bukkit.getServer().getPluginManager().registerEvents();
-        
-        
+
+
     }
 
     @Override
@@ -81,6 +82,11 @@ public class BookSave extends JavaPlugin {
         commandHandler.registerCommand(new SaveCommand(this));
         commandHandler.registerCommand(new GiveCommand(this));
         commandHandler.registerCommand(new ListCommand(this));
+    }
+
+    private void registerListeners() {
+        if (getConfig().getBoolean("GiveBookOnFirstJoin"))
+            getServer().getPluginManager().registerEvents(new LoginListener(this), this);
     }
 
     public BookManager getManager() {
