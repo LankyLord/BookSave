@@ -28,7 +28,6 @@ package net.lankylord.booksave.commands;
 import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -62,7 +61,7 @@ public class GiveCommand extends BookSaveCommand {
             title = args.get(0);
         }
         if (plugin.getManager().giveBookToPlayer(receiver, title))
-            sender.sendMessage(ChatColor.YELLOW + "You have given " + receiver.getName() + " "
-                    + plugin.getManager().getBookTitle(title));
+            sender.sendMessage(colour1 + "You have given " + colour2 + receiver.getName() + colour1 + " the book  " + colour2
+                    + title);
     }
 }
