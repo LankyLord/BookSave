@@ -69,7 +69,7 @@ public class BookManager {
      */
     public boolean addBook(Player p, String name) {
         createBookDirectory();
-        File newBook = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name);
+        File newBook = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
         if (p.getItemInHand().getType() != Material.WRITTEN_BOOK) {
             p.sendMessage(ChatColor.RED + "[BookSave] You need to be holding a written book to do that.");
             return false;
@@ -103,7 +103,7 @@ public class BookManager {
     public boolean giveBookToPlayer(Player p, String name) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) book.getItemMeta();
-        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name);
+        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
         if (bookFile.exists()) {
             meta = this.getBookFromSystem(meta, bookFile);
             book.setItemMeta(meta);
@@ -163,7 +163,7 @@ public class BookManager {
      * @return Returns null if file does not exist, else returns title of book
      */
     public String getBookTitle(String bookName) {
-        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + bookName);
+        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + bookName + ".yml");
         if (bookFile.exists()) {
             YamlConfiguration savedBook = new YamlConfiguration();
             try {
@@ -185,8 +185,13 @@ public class BookManager {
         File[] files = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books").listFiles();
         if (files != null)
             for (File file : files)
-                if (file.isFile())
-                    bookList.add(file.getName());
+                if (file.isFile()) {
+                    String name = file.getName();
+                    int pos = name.lastIndexOf(".");
+                    if (pos > 0)
+                        name = name.substring(0, pos);
+                    bookList.add(name);
+                }
     }
 
     /**
@@ -195,9 +200,9 @@ public class BookManager {
      * @param p The player to send the messages to
      */
     public void listBookFiles(CommandSender sender) {
-        sender.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "List of Books");
-        sender.sendMessage(" ");
-        if (!bookList.isEmpty())
+        if (!bookList.isEmpty()) {
+            sender.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "List of Books");
+            sender.sendMessage(" ");
             for (Iterator<String> it = bookList.iterator(); it.hasNext();) {
                 String bookname = it.next();
                 String booktitle = this.getBookTitle(bookname);
@@ -205,7 +210,8 @@ public class BookManager {
                 sender.sendMessage(ChatColor.GOLD + "Title: " + ChatColor.GRAY + booktitle);
                 sender.sendMessage(ChatColor.GRAY + "-----");
             }
-        else
-            sender.sendMessage(ChatColor.RED + "There are no books to list");
+        } else
+            sender.sendMessage(ChatColor.RED
+                    + "[BookSave] There are no books to list");
     }
 }
