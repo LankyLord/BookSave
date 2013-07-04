@@ -40,7 +40,7 @@ public class SaveCommand extends BookSaveCommand {
     public SaveCommand(BookSave plugin) {
         super(plugin);
         this.setName("BookSave: Save");
-        this.setCommandUsage("/bs save <BookName>");
+        this.setCommandUsage("/book save <BookName>");
         this.setArgRange(1, 1);
         this.addKey("booksave save");
         this.addKey("bs save");
