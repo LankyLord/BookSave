@@ -85,8 +85,7 @@ public class BookSave extends JavaPlugin {
     }
 
     private void registerListeners() {
-        if (getConfig().getBoolean("GiveBookOnFirstJoin"))
-            getServer().getPluginManager().registerEvents(new LoginListener(this), this);
+        getServer().getPluginManager().registerEvents(new LoginListener(this), this);
     }
 
     public BookManager getManager() {
