@@ -1,3 +1,3 @@
-#If true, gives book named in 'BookToGiveOnJoin' to new players
-GiveBookOnFirstJoin: false
-BookToGiveOnJoin: "Rules"
+#List books to give to new players when they first join
+books-on-first-join:
+  - Rules

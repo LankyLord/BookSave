@@ -25,6 +25,8 @@
  */
 package net.lankylord.booksave.listeners;
 
+import java.util.Iterator;
+import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,17 +40,20 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class LoginListener implements Listener {
 
     private final BookSave plugin;
-    private String bookToGive;
+    private List<String> bookToGive;
 
     public LoginListener(BookSave plugin) {
         this.plugin = plugin;
-        this.bookToGive = plugin.getConfig().getString("BookToGiveOnJoin");
+        this.bookToGive = plugin.getConfig().getStringList("books-on-first-join");
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         if (!p.hasPlayedBefore())
-            plugin.getManager().giveBookToPlayer(p, bookToGive);
+            for (Iterator<String> it = bookToGive.iterator(); it.hasNext();) {
+                String b = it.next();
+                plugin.getManager().giveBookToPlayer(p, b);
+            }
     }
 }
