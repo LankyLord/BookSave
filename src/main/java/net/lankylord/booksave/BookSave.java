@@ -26,6 +26,7 @@
 package net.lankylord.booksave;
 
 import com.pneumaticraft.commandhandler.CommandHandler;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.MetricsLite;
 
 /**
  *
@@ -63,6 +65,7 @@ public class BookSave extends JavaPlugin {
         saveConfig();
         registerCommands();
         registerListeners();
+        loadMetrics();
         bookManager.updateBookList();
 
 
@@ -86,6 +89,15 @@ public class BookSave extends JavaPlugin {
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
+    }
+
+    private void loadMetrics() {
+        try {
+            MetricsLite metrics = new MetricsLite(this);
+            metrics.start();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Failed to submit stats");
+        }
     }
 
     public BookManager getManager() {
