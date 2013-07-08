@@ -61,7 +61,7 @@ public class GiveCommand extends BookSaveCommand {
             title = args.get(0);
         }
         if (plugin.getManager().giveBookToPlayer(receiver, title))
-            sender.sendMessage(colour1 + "You have given " + colour2 + receiver.getName() + colour1 + " the book  " + colour2
+            sender.sendMessage(colour1 + "You have given " + colour2 + receiver.getName() + colour1 + " the book " + colour2
                     + title);
     }
 }
