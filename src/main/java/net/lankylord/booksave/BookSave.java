@@ -85,6 +85,7 @@ public class BookSave extends JavaPlugin {
         commandHandler.registerCommand(new SaveCommand(this));
         commandHandler.registerCommand(new GiveCommand(this));
         commandHandler.registerCommand(new ListCommand(this));
+        commandHandler.registerCommand(new RemoveCommand(this));
     }
 
     private void registerListeners() {

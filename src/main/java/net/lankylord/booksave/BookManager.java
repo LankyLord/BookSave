@@ -95,6 +95,21 @@ public class BookManager {
     }
 
     /**
+     *
+     * @param name The name of the book to be deleted
+     * @return Returns true if book exists and was deleted, false if book does not exist
+     */
+    public boolean removeBook(String name) {
+        File book = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
+        if (book.exists()) {
+            book.delete();
+            updateBookList();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Give a specified book to a player
      *
      * @param p Player receiving the book
