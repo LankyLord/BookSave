@@ -75,7 +75,7 @@ public class BookManager {
         this.createBookDirectory();
         String author = meta.getAuthor();
         String title = meta.getTitle();
-        List pages = meta.getPages();
+        List<String> pages = meta.getPages();
         this.saveBookToSystem(title, author, pages, getBookFile(name));
         this.updateBookList();
     }
