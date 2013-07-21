@@ -45,21 +45,21 @@ import org.mcstats.MetricsLite;
  * @author LankyLord
  */
 public class BookSave extends JavaPlugin {
-
+    
     static final Logger logger = Logger.getLogger("Minecraft");
     private BookManager bookManager;
     private CommandHandler commandHandler;
-
+    
     public BookSave() {
         this.bookManager = new BookManager(this);
     }
-
+    
     @Override
     public void onEnable() {
-
+        
         PluginDescriptionFile pdfFile = this.getDescription();
         logger.log(Level.INFO, "[BookSave] BookSave v{0} Enabled.", pdfFile.getVersion());
-
+        
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         saveConfig();
@@ -67,10 +67,10 @@ public class BookSave extends JavaPlugin {
         registerListeners();
         loadMetrics();
         bookManager.updateBookList();
-
-
+        
+        
     }
-
+    
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> allArgs = new ArrayList<>();
@@ -78,7 +78,7 @@ public class BookSave extends JavaPlugin {
         allArgs.add(0, label);
         return commandHandler.locateAndRunCommand(sender, allArgs);
     }
-
+    
     private void registerCommands() {
         PermissionsModule pm = new PermissionsModule();
         commandHandler = new CommandHandler(this, pm);
@@ -86,12 +86,13 @@ public class BookSave extends JavaPlugin {
         commandHandler.registerCommand(new GiveCommand(this));
         commandHandler.registerCommand(new ListCommand(this));
         commandHandler.registerCommand(new RemoveCommand(this));
+        commandHandler.registerCommand(new UnsignCommand(this));
     }
-
+    
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
     }
-
+    
     private void loadMetrics() {
         try {
             MetricsLite metrics = new MetricsLite(this);
@@ -100,7 +101,7 @@ public class BookSave extends JavaPlugin {
             logger.log(Level.WARNING, "Failed to submit stats");
         }
     }
-
+    
     public BookManager getManager() {
         return this.bookManager;
     }
