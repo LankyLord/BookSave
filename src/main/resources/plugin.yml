@@ -1,6 +1,6 @@
-name: BookSave
+name: ${name}
 description: Easy solution for saving and retrieving books.
-version: maven-version-number
+version: ${version}
 author: LankyLord
 main: net.lankylord.booksave.BookSave
 

@@ -50,10 +50,10 @@ public class ListCommand extends BookSaveCommand {
 
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
-        if (!manager.bookList.isEmpty()) {
+        if (manager.getBookList().isEmpty()) {
             sender.sendMessage(colour1.toString() + ChatColor.UNDERLINE + "List of Books");
             sender.sendMessage("");
-            for (String bookname : manager.bookList) {
+            for (String bookname : manager.getBookList()) {
                 String booktitle = manager.getBookTitle(bookname);
                 sender.sendMessage(colour1 + "Name: " + colour2 + bookname);
                 sender.sendMessage(colour1 + "Title: " + colour2 + booktitle);

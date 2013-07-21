@@ -49,7 +49,7 @@ public class BookManager {
 
     public BookManager(BookSave plugin) {
         this.plugin = plugin;
-        this.bookList = new ArrayList<>();
+        updateBookList();
     }
 
     private boolean createBookDirectory() {

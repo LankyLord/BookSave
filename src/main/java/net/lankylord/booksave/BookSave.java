@@ -50,22 +50,17 @@ public class BookSave extends JavaPlugin {
     private BookManager bookManager;
     private CommandHandler commandHandler;
     
-    public BookSave() {
-        this.bookManager = new BookManager(this);
-    }
-    
     @Override
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
         logger.log(Level.INFO, "[BookSave] BookSave v{0} Enabled.", pdfFile.getVersion());
-        
+        this.bookManager = new BookManager(this);
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         saveConfig();
         registerCommands();
         registerListeners();
         loadMetrics();
-        bookManager.updateBookList();
     }
     
     @Override
