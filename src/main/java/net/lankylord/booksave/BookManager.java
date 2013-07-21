@@ -45,17 +45,24 @@ public class BookManager {
 
     private final BookSave plugin;
     private File bookFolder;
-    public List<String> bookList;
+    private List<String> bookList;
 
     public BookManager(BookSave plugin) {
         this.plugin = plugin;
         this.bookList = new ArrayList<>();
     }
 
-    private void createBookDirectory() {
+    private boolean createBookDirectory() {
         bookFolder = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books");
         if (!bookFolder.exists())
-            bookFolder.mkdirs();
+            return bookFolder.mkdirs();
+        return true;
+    }
+
+    private File getBookFolder() {
+        if(bookFolder == null)
+            createBookDirectory();
+        return  bookFolder;
     }
 
     /**
@@ -66,17 +73,10 @@ public class BookManager {
      */
     public void addBook(String name, BookMeta meta) {
         this.createBookDirectory();
-        File newBookFile = this.getBookFile(name);
-        try {
-            newBookFile.createNewFile();
-        } catch (IOException e) {
-            BookSave.logger.log(Level.WARNING, "Exception while trying to save new book.");
-            return;
-        }
         String author = meta.getAuthor();
         String title = meta.getTitle();
         List pages = meta.getPages();
-        this.saveBookToSystem(title, author, pages, newBookFile);
+        this.saveBookToSystem(title, author, pages, getBookFile(name));
         this.updateBookList();
     }
 
@@ -86,11 +86,12 @@ public class BookManager {
      * @return Returns true if book exists and was deleted, false if book does not exist
      */
     public boolean removeBook(String name) {
-        File book = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
+        File book = getBookFile(name);
         if (book.exists()) {
-            book.delete();
-            updateBookList();
-            return true;
+            if (book.delete()) {
+                updateBookList();
+                return true;
+            }
         }
         return false;
     }
@@ -104,7 +105,7 @@ public class BookManager {
     public boolean giveBookToPlayer(Player p, String name) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) book.getItemMeta();
-        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
+        File bookFile = getBookFile(name);
         if (bookFile.exists()) {
             meta = this.getBookFromSystem(meta, bookFile);
             book.setItemMeta(meta);
@@ -154,7 +155,7 @@ public class BookManager {
         }
         meta.setAuthor(savedBook.getString("author"));
         meta.setTitle(savedBook.getString("title"));
-        meta.setPages((List<String>) savedBook.getList("pages"));
+        meta.setPages(savedBook.getStringList("pages"));
         return meta;
     }
 
@@ -165,7 +166,7 @@ public class BookManager {
      * @return Returns null if file does not exist, else returns title of book
      */
     public String getBookTitle(String bookName) {
-        File bookFile = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + bookName + ".yml");
+        File bookFile = getBookFile(bookName);
         if (bookFile.exists()) {
             YamlConfiguration savedBook = new YamlConfiguration();
             try {
@@ -178,13 +179,17 @@ public class BookManager {
         return null;
     }
 
+    public List<String> getBookList() {
+        return bookList;
+    }
+
     /**
      * Update bookList with the files currently present in the directory
      *
      */
-    public void updateBookList() {
+    private void updateBookList() {
         bookList = new ArrayList<>();
-        File[] files = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books").listFiles();
+        File[] files = getBookFolder().listFiles();
         if (files != null)
             for (File file : files)
                 if (file.isFile()) {
@@ -196,7 +201,7 @@ public class BookManager {
                 }
     }
 
-    public File getBookFile(String name) {
-        return new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
+    private File getBookFile(String name) {
+        return new File(getBookFolder() + name + ".yml");
     }
 }

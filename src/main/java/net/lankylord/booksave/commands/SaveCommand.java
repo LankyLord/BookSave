@@ -55,7 +55,7 @@ public class SaveCommand extends BookSaveCommand {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             String name = args.get(0);
-            if (manager.getBookFile(name).exists()) {
+            if (manager.getBookList().contains(name)) {
                 sender.sendMessage(colour3 + "There is already a book with that name.");
                 return;
             }
