@@ -38,7 +38,7 @@ import org.bukkit.permissions.PermissionDefault;
  * @author LankyLord
  */
 public class SaveCommand extends BookSaveCommand {
-
+    
     public SaveCommand(BookSave plugin) {
         super(plugin);
         this.setName("BookSave: Save");
@@ -49,7 +49,7 @@ public class SaveCommand extends BookSaveCommand {
         this.addKey("book save");
         this.setPermission("booksave.save", "Allows this user to save a book", PermissionDefault.OP);
     }
-
+    
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
         if (sender instanceof Player) {
@@ -64,6 +64,7 @@ public class SaveCommand extends BookSaveCommand {
                 return;
             }
             manager.addBook(name, (BookMeta) p.getItemInHand().getItemMeta());
+            sender.sendMessage(colour1 + "Book: " + colour2 + name + colour1 + " saved.");
         }
     }
 }

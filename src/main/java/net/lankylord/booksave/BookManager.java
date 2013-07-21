@@ -50,7 +50,6 @@ public class BookManager {
     public BookManager(BookSave plugin) {
         this.plugin = plugin;
         this.bookList = new ArrayList<>();
-        this.createBookDirectory();
     }
 
     private void createBookDirectory() {
@@ -66,6 +65,7 @@ public class BookManager {
      * @param meta The BookMeta of the book to be saved
      */
     public void addBook(String name, BookMeta meta) {
+        this.createBookDirectory();
         File newBookFile = this.getBookFile(name);
         try {
             newBookFile.createNewFile();
@@ -77,6 +77,7 @@ public class BookManager {
         String title = meta.getTitle();
         List pages = meta.getPages();
         this.saveBookToSystem(title, author, pages, newBookFile);
+        this.updateBookList();
     }
 
     /**

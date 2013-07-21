@@ -42,8 +42,8 @@ public class UnsignCommand extends BookSaveCommand {
     public UnsignCommand(BookSave plugin) {
         super(plugin);
         this.setName("BookSave: Edit");
-        this.setCommandUsage("/book edit <BookName>");
-        this.setArgRange(1, 1);
+        this.setCommandUsage("/book edit");
+        this.setArgRange(0, 0);
         this.addKey("booksave edit");
         this.addKey("bs edit");
         this.addKey("book edit");
