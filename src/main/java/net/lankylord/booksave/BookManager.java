@@ -54,9 +54,7 @@ public class BookManager {
 
     private boolean createBookDirectory() {
         bookFolder = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books");
-        if (!bookFolder.exists())
-            return bookFolder.mkdirs();
-        return true;
+        return bookFolder.exists() || bookFolder.mkdirs();
     }
 
     private File getBookFolder() {
@@ -179,6 +177,10 @@ public class BookManager {
         return null;
     }
 
+    /**
+     * Get a list of books
+     * @return The list of books
+     */
     public List<String> getBookList() {
         return bookList;
     }
@@ -192,7 +194,7 @@ public class BookManager {
         File[] files = getBookFolder().listFiles();
         if (files != null)
             for (File file : files)
-                if (file.isFile()) {
+                if (file.isFile() && file.getName().endsWith(".yml")) {
                     String name = file.getName();
                     int pos = name.lastIndexOf(".");
                     if (pos > 0)
