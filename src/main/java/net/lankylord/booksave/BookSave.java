@@ -26,12 +26,6 @@
 package net.lankylord.booksave;
 
 import com.pneumaticraft.commandhandler.CommandHandler;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.lankylord.booksave.commands.*;
 import net.lankylord.booksave.listeners.LoginListener;
 import org.bukkit.command.Command;
@@ -40,16 +34,20 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.MetricsLite;
 
-/**
- *
- * @author LankyLord
- */
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/** @author LankyLord */
 public class BookSave extends JavaPlugin {
-    
+
     static final Logger logger = Logger.getLogger("Minecraft");
     private BookManager bookManager;
     private CommandHandler commandHandler;
-    
+
     @Override
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
@@ -62,7 +60,7 @@ public class BookSave extends JavaPlugin {
         registerListeners();
         loadMetrics();
     }
-    
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> allArgs = new ArrayList<>();
@@ -70,7 +68,7 @@ public class BookSave extends JavaPlugin {
         allArgs.add(0, label);
         return commandHandler.locateAndRunCommand(sender, allArgs);
     }
-    
+
     private void registerCommands() {
         PermissionsModule pm = new PermissionsModule();
         commandHandler = new CommandHandler(this, pm);
@@ -80,11 +78,11 @@ public class BookSave extends JavaPlugin {
         commandHandler.registerCommand(new RemoveCommand(this));
         commandHandler.registerCommand(new UnsignCommand(this));
     }
-    
+
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
     }
-    
+
     private void loadMetrics() {
         try {
             MetricsLite metrics = new MetricsLite(this);
@@ -93,7 +91,7 @@ public class BookSave extends JavaPlugin {
             logger.log(Level.WARNING, "Failed to submit stats");
         }
     }
-    
+
     public BookManager getManager() {
         return this.bookManager;
     }

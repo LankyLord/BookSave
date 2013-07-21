@@ -25,11 +25,6 @@
  */
 package net.lankylord.booksave;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -37,10 +32,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-/**
- *
- * @author LankyLord
- */
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+
+/** @author LankyLord */
 public class BookManager {
 
     private final BookSave plugin;
@@ -58,9 +56,9 @@ public class BookManager {
     }
 
     private File getBookFolder() {
-        if(bookFolder == null)
+        if (bookFolder == null)
             createBookDirectory();
-        return  bookFolder;
+        return bookFolder;
     }
 
     /**
@@ -79,7 +77,6 @@ public class BookManager {
     }
 
     /**
-     *
      * @param name The name of the book to be deleted
      * @return Returns true if book exists and was deleted, false if book does not exist
      */
@@ -97,7 +94,7 @@ public class BookManager {
     /**
      * Give a specified book to a player
      *
-     * @param p Player receiving the book
+     * @param p    Player receiving the book
      * @param name The name of the book to be given
      */
     public boolean giveBookToPlayer(Player p, String name) {
@@ -116,10 +113,10 @@ public class BookManager {
     /**
      * Runs a task to save the book to disk
      *
-     * @param title Title of the book to be stored
+     * @param title  Title of the book to be stored
      * @param author Author of the book to be stored
-     * @param pages Pages of the book to be stored
-     * @param book The file for book data to be stored in
+     * @param pages  Pages of the book to be stored
+     * @param book   The file for book data to be stored in
      */
     private void saveBookToSystem(final String title, final String author, final List<String> pages, final File book) {
         this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -141,7 +138,7 @@ public class BookManager {
     /**
      * Retrieved stored book metadata from disk
      *
-     * @param meta BookMeta that will be replaced
+     * @param meta     BookMeta that will be replaced
      * @param bookFile The file the book data is stored in
      */
     private BookMeta getBookFromSystem(BookMeta meta, File bookFile) {
@@ -179,16 +176,14 @@ public class BookManager {
 
     /**
      * Get a list of books
+     *
      * @return The list of books
      */
     public List<String> getBookList() {
         return bookList;
     }
 
-    /**
-     * Update bookList with the files currently present in the directory
-     *
-     */
+    /** Update bookList with the files currently present in the directory */
     private void updateBookList() {
         bookList = new ArrayList<>();
         File[] files = getBookFolder().listFiles();

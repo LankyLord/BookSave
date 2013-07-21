@@ -26,17 +26,15 @@
 package net.lankylord.booksave.commands;
 
 import com.pneumaticraft.commandhandler.Command;
-import java.util.List;
 import net.lankylord.booksave.BookManager;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public abstract class BookSaveCommand extends Command {
 
     protected BookSave plugin;

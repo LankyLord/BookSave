@@ -25,15 +25,13 @@
  */
 package net.lankylord.booksave.commands;
 
-import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public class RemoveCommand extends BookSaveCommand {
 
     public RemoveCommand(BookSave plugin) {

@@ -25,17 +25,15 @@
  */
 package net.lankylord.booksave.listeners;
 
-import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public class LoginListener implements Listener {
 
     private final BookSave plugin;

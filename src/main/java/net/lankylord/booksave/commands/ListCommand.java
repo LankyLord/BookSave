@@ -25,16 +25,14 @@
  */
 package net.lankylord.booksave.commands;
 
-import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public class ListCommand extends BookSaveCommand {
 
     public ListCommand(BookSave plugin) {

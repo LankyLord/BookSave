@@ -25,17 +25,15 @@
  */
 package net.lankylord.booksave.commands;
 
-import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public class GiveCommand extends BookSaveCommand {
 
     public GiveCommand(BookSave plugin) {

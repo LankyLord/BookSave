@@ -25,7 +25,6 @@
  */
 package net.lankylord.booksave.commands;
 
-import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -33,10 +32,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.permissions.PermissionDefault;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public class UnsignCommand extends BookSaveCommand {
 
     public UnsignCommand(BookSave plugin) {

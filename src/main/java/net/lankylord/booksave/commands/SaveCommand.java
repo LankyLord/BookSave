@@ -25,7 +25,6 @@
  */
 package net.lankylord.booksave.commands;
 
-import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -33,12 +32,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.permissions.PermissionDefault;
 
-/**
- *
- * @author LankyLord
- */
+import java.util.List;
+
+/** @author LankyLord */
 public class SaveCommand extends BookSaveCommand {
-    
+
     public SaveCommand(BookSave plugin) {
         super(plugin);
         this.setName("BookSave: Save");
@@ -49,7 +47,7 @@ public class SaveCommand extends BookSaveCommand {
         this.addKey("book save");
         this.setPermission("booksave.save", "Allows this user to save a book", PermissionDefault.OP);
     }
-    
+
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
         if (sender instanceof Player) {
