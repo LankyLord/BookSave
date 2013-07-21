@@ -27,6 +27,7 @@ package net.lankylord.booksave.commands;
 
 import com.pneumaticraft.commandhandler.Command;
 import java.util.List;
+import net.lankylord.booksave.BookManager;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -39,6 +40,7 @@ import org.bukkit.entity.Player;
 public abstract class BookSaveCommand extends Command {
 
     protected BookSave plugin;
+    protected BookManager manager;
     protected ChatColor colour1 = ChatColor.GOLD;
     protected ChatColor colour2 = ChatColor.GRAY;
     protected ChatColor colour3 = ChatColor.RED;
@@ -46,6 +48,7 @@ public abstract class BookSaveCommand extends Command {
     public BookSaveCommand(BookSave instance) {
         super(instance);
         plugin = instance;
+        manager = plugin.getManager();
     }
 
     @Override

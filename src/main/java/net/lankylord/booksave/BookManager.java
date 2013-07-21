@@ -53,6 +53,7 @@ public class BookManager {
     public BookManager(BookSave plugin) {
         this.plugin = plugin;
         this.bookList = new ArrayList<>();
+        this.createBookDirectory();
     }
 
     private void createBookDirectory() {
@@ -64,34 +65,21 @@ public class BookManager {
     /**
      * Save a book from a player's inventory
      *
-     * @param p The player issuing the command
      * @param name The name to be used for identification of the book
+     * @param meta The BookMeta of the book to be saved
      */
-    public boolean addBook(Player p, String name) {
-        createBookDirectory();
-        File newBook = new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
-        if (p.getItemInHand().getType() != Material.WRITTEN_BOOK) {
-            p.sendMessage(ChatColor.RED + "[BookSave] You need to be holding a written book to do that.");
-            return false;
-        }
-        if (newBook.exists()) {
-            p.sendMessage(ChatColor.RED + "[BookSave] There is already a book with that name.");
-            return false;
-        }
+    public void addBook(String name, BookMeta meta) {
+        File newBookFile = this.getBookFile(name);
         try {
-            newBook.createNewFile();
+            newBookFile.createNewFile();
         } catch (IOException e) {
-            BookSave.logger.log(Level.WARNING, "[BookSave] Failed to save new book");
-            p.sendMessage(ChatColor.RED + "[BookSave] WARNING: Failed to save new book");
-            return false;
+            BookSave.logger.log(Level.WARNING, "Exception while trying to save new book.");
+            return;
         }
-        BookMeta meta = (BookMeta) p.getItemInHand().getItemMeta();
         String author = meta.getAuthor();
         String title = meta.getTitle();
         List pages = meta.getPages();
-        saveBookToSystem(title, author, pages, newBook);
-        updateBookList();
-        return true;
+        this.saveBookToSystem(title, author, pages, newBookFile);
     }
 
     /**
@@ -228,5 +216,9 @@ public class BookManager {
         } else
             sender.sendMessage(ChatColor.RED
                     + "[BookSave] There are no books to list");
+    }
+
+    public File getBookFile(String name) {
+        return new File(this.plugin.getDataFolder().getPath() + File.separatorChar + "books" + File.separatorChar + name + ".yml");
     }
 }

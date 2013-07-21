@@ -27,8 +27,10 @@ package net.lankylord.booksave.commands;
 
 import java.util.List;
 import net.lankylord.booksave.BookSave;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.permissions.PermissionDefault;
 
 /**
@@ -51,9 +53,17 @@ public class SaveCommand extends BookSaveCommand {
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
         if (sender instanceof Player) {
-            if (plugin.getManager().addBook((Player) sender, args.get(0)))
-                sender.sendMessage(colour1 + "[BookSave] " + colour2 + args.get(0) + " saved.");
-        } else
-            sender.sendMessage(colour3 + "[BookSave] This command can only be issued by a player");
+            Player p = (Player) sender;
+            String name = args.get(0);
+            if (manager.getBookFile(name).exists()) {
+                sender.sendMessage(colour3 + "There is already a book with that name.");
+                return;
+            }
+            if (p.getItemInHand().getType() != Material.WRITTEN_BOOK) {
+                sender.sendMessage(colour3 + "You must be holding a written book to do that.");
+                return;
+            }
+            manager.addBook(name, (BookMeta) p.getItemInHand().getItemMeta());
+        }
     }
 }
