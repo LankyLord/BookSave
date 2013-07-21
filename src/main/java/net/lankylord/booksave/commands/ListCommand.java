@@ -25,7 +25,6 @@
  */
 package net.lankylord.booksave.commands;
 
-import java.util.Iterator;
 import java.util.List;
 import net.lankylord.booksave.BookSave;
 import org.bukkit.ChatColor;
@@ -54,8 +53,7 @@ public class ListCommand extends BookSaveCommand {
         if (!manager.bookList.isEmpty()) {
             sender.sendMessage(colour1.toString() + ChatColor.UNDERLINE + "List of Books");
             sender.sendMessage("");
-            for (Iterator<String> it = manager.bookList.iterator(); it.hasNext();) {
-                String bookname = it.next();
+            for (String bookname : manager.bookList) {
                 String booktitle = manager.getBookTitle(bookname);
                 sender.sendMessage(colour1 + "Name: " + colour2 + bookname);
                 sender.sendMessage(colour1 + "Title: " + colour2 + booktitle);

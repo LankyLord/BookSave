@@ -56,7 +56,6 @@ public class BookSave extends JavaPlugin {
     
     @Override
     public void onEnable() {
-        
         PluginDescriptionFile pdfFile = this.getDescription();
         logger.log(Level.INFO, "[BookSave] BookSave v{0} Enabled.", pdfFile.getVersion());
         
@@ -67,8 +66,6 @@ public class BookSave extends JavaPlugin {
         registerListeners();
         loadMetrics();
         bookManager.updateBookList();
-        
-        
     }
     
     @Override

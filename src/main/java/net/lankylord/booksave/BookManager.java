@@ -108,7 +108,7 @@ public class BookManager {
         if (bookFile.exists()) {
             meta = this.getBookFromSystem(meta, bookFile);
             book.setItemMeta(meta);
-            p.getInventory().addItem(new ItemStack[]{book});
+            p.getInventory().addItem(book);
             return true;
         }
         return false;
@@ -133,6 +133,7 @@ public class BookManager {
                 try {
                     bookFile.save(book);
                 } catch (IOException e) {
+                    plugin.getLogger().warning("Could not save book to file");
                 }
             }
         });
@@ -142,7 +143,7 @@ public class BookManager {
      * Retrieved stored book metadata from disk
      *
      * @param meta BookMeta that will be replaced
-     * @param File The file the book data is stored in
+     * @param bookFile The file the book data is stored in
      */
     private BookMeta getBookFromSystem(BookMeta meta, File bookFile) {
         YamlConfiguration savedBook = new YamlConfiguration();

@@ -60,7 +60,7 @@ public class GiveCommand extends BookSaveCommand {
             receiver = (Player) sender;
             title = args.get(0);
         }
-        if (plugin.getManager().giveBookToPlayer(receiver, title))
+        if (plugin.getManager().giveBookToPlayer(receiver, title) && receiver != null)
             sender.sendMessage(colour1 + "You have given " + colour2 + receiver.getName() + colour1 + " the book " + colour2
                     + title);
     }
