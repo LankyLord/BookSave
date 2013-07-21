@@ -8,3 +8,25 @@ commands:
   book:
     description: The commands for interfacing with BookSave
     aliases: [bs, booksave]
+    
+permissions:
+  booksave.*:
+    default: op
+    description: All booksave permissions
+    children:
+      booksave.give: true
+      booksave.list: true
+      booksave.remove: true
+      booksave.save: true
+  booksave.give:
+    default: op
+    description: Allows this user to retrieve saved books
+  booksave.list:
+    default: op
+    description: Allows this user to list books that are stored on the system
+  booksave.remove:
+    default: op
+    description: Allows this user to delete saved books from the drive
+  booksave.save:
+    default: op
+    description: Allows this user to save a book
