@@ -25,8 +25,10 @@
  */
 package net.lankylord.booksave.commands;
 
+import java.util.Iterator;
 import java.util.List;
 import net.lankylord.booksave.BookSave;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
@@ -35,7 +37,7 @@ import org.bukkit.permissions.PermissionDefault;
  * @author LankyLord
  */
 public class ListCommand extends BookSaveCommand {
-    
+
     public ListCommand(BookSave plugin) {
         super(plugin);
         this.setName("BookSave: List");
@@ -46,9 +48,20 @@ public class ListCommand extends BookSaveCommand {
         this.addKey("book list");
         this.setPermission("booksave.list", "Allows this user to list books that are stored on the system", PermissionDefault.OP);
     }
-    
+
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
-        plugin.getManager().listBookFiles(sender);
+        if (!manager.bookList.isEmpty()) {
+            sender.sendMessage(colour1.toString() + ChatColor.UNDERLINE + "List of Books");
+            sender.sendMessage("");
+            for (Iterator<String> it = manager.bookList.iterator(); it.hasNext();) {
+                String bookname = it.next();
+                String booktitle = manager.getBookTitle(bookname);
+                sender.sendMessage(colour1 + "Name: " + colour2 + bookname);
+                sender.sendMessage(colour1 + "Title: " + colour2 + booktitle);
+                sender.sendMessage(colour2 + "-----");
+            }
+        } else
+            sender.sendMessage(colour3 + "There are no books to list.");
     }
 }

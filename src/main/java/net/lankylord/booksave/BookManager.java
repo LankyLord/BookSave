@@ -28,12 +28,9 @@ package net.lankylord.booksave;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -48,7 +45,7 @@ public class BookManager {
 
     private final BookSave plugin;
     private File bookFolder;
-    private List<String> bookList;
+    public List<String> bookList;
 
     public BookManager(BookSave plugin) {
         this.plugin = plugin;
@@ -63,7 +60,7 @@ public class BookManager {
     }
 
     /**
-     * Save a book from a player's inventory
+     * Save a book from BookMeta
      *
      * @param name The name to be used for identification of the book
      * @param meta The BookMeta of the book to be saved
@@ -195,27 +192,6 @@ public class BookManager {
                         name = name.substring(0, pos);
                     bookList.add(name);
                 }
-    }
-
-    /**
-     * Send the player a message listing the currently stored books
-     *
-     * @param p The player to send the messages to
-     */
-    public void listBookFiles(CommandSender sender) {
-        if (!bookList.isEmpty()) {
-            sender.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "List of Books");
-            sender.sendMessage(" ");
-            for (Iterator<String> it = bookList.iterator(); it.hasNext();) {
-                String bookname = it.next();
-                String booktitle = this.getBookTitle(bookname);
-                sender.sendMessage(ChatColor.GOLD + "Name: " + ChatColor.GRAY + bookname);
-                sender.sendMessage(ChatColor.GOLD + "Title: " + ChatColor.GRAY + booktitle);
-                sender.sendMessage(ChatColor.GRAY + "-----");
-            }
-        } else
-            sender.sendMessage(ChatColor.RED
-                    + "[BookSave] There are no books to list");
     }
 
     public File getBookFile(String name) {
