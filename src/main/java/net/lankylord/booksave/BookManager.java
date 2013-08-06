@@ -199,6 +199,6 @@ public class BookManager {
     }
 
     private File getBookFile(String name) {
-        return new File(getBookFolder() + name + ".yml");
+        return new File(getBookFolder().getPath() + File.separatorChar + name + ".yml");
     }
 }
