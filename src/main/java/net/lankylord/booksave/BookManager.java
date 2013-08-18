@@ -73,7 +73,6 @@ public class BookManager {
         String title = meta.getTitle();
         List<String> pages = meta.getPages();
         this.saveBookToSystem(title, author, pages, getBookFile(name));
-        this.updateBookList();
     }
 
     /**
@@ -131,6 +130,7 @@ public class BookManager {
                 } catch (IOException e) {
                     plugin.getLogger().warning("Could not save book to file");
                 }
+                updateBookList();
             }
         });
     }
