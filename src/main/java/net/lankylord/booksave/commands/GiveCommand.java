@@ -62,6 +62,7 @@ public class GiveCommand extends BookSaveCommand {
             sender.sendMessage(colour1 + "You have given " + colour2 + receiver.getName() + colour1 + " the book "
                     + colour2 + title);
             receiver.sendMessage(colour1 + "You have been given the book " + colour2 + title);
-        }
+        } else
+            sender.sendMessage(colour3 + "Failed to give book to player.");
     }
 }
