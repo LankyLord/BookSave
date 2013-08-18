@@ -51,10 +51,10 @@ public class ListCommand extends BookSaveCommand {
         if (!manager.getBookList().isEmpty()) {
             sender.sendMessage(colour1.toString() + ChatColor.UNDERLINE + "List of Books");
             sender.sendMessage("");
-            for (String bookname : manager.getBookList()) {
-                String booktitle = manager.getBookTitle(bookname);
-                sender.sendMessage(colour1 + "Name: " + colour2 + bookname);
-                sender.sendMessage(colour1 + "Title: " + colour2 + booktitle);
+            for (String bookName : manager.getBookList()) {
+                String bookTitle = manager.getBookTitle(bookName);
+                sender.sendMessage(colour1 + "Name: " + colour2 + bookName);
+                sender.sendMessage(colour1 + "Title: " + colour2 + bookTitle);
                 sender.sendMessage(colour2 + "-----");
             }
         } else
