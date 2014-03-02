@@ -44,14 +44,13 @@ import java.util.logging.Logger;
 /** @author LankyLord */
 public class BookSave extends JavaPlugin {
 
-    static final Logger logger = Logger.getLogger("Minecraft");
     private BookManager bookManager;
     private CommandHandler commandHandler;
 
     @Override
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
-        logger.log(Level.INFO, "[BookSave] BookSave v{0} Enabled.", pdfFile.getVersion());
+        this.getLogger().log(Level.INFO, "BookSave v{0} Enabled.", pdfFile.getVersion());
         this.bookManager = new BookManager(this);
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
@@ -88,7 +87,7 @@ public class BookSave extends JavaPlugin {
             MetricsLite metrics = new MetricsLite(this);
             metrics.start();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Failed to submit stats");
+            this.getLogger().log(Level.WARNING, "Failed to submit stats");
         }
     }
 

@@ -146,7 +146,7 @@ public class BookManager {
         try {
             savedBook.load(bookFile);
         } catch (InvalidConfigurationException | IOException e) {
-            BookSave.logger.log(Level.WARNING, "[BookSave] Failed to load books from disk.");
+            plugin.getLogger().warning("Failed to load books from disk.");
         }
         meta.setAuthor(savedBook.getString("author"));
         meta.setTitle(savedBook.getString("title"));
@@ -167,7 +167,7 @@ public class BookManager {
             try {
                 savedBook.load(bookFile);
             } catch (InvalidConfigurationException | IOException e) {
-                BookSave.logger.log(Level.WARNING, "[BookSave] Failed to read book from disk.");
+                plugin.getLogger().warning("Failed to read book from disk.");
             }
             return savedBook.getString("title");
         }
